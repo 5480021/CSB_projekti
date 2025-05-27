@@ -1,7 +1,12 @@
 import os
+from django.db import connection
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+
+
 
 # ----------------------------------------
 # FLAW 1: SQL Injection (OWASP A03)
@@ -15,13 +20,13 @@ def search_user(request):
 
         # FLAW: allows SQL injection
         with connection.cursor() as cursor:
-            cursor.execute(f"SELECT * FROM main_userdata WHERE username = '{query}'")
+            cursor.execute(f"SELECT * FROM auth_user WHERE username = '{query}'")
             rows = cursor.fetchall()
 
         # FIX: Parameterized query (commented out)
-        # with connection.cursor() as cursor:
-        #     cursor.execute("SELECT * FROM main_userdata WHERE username = %s", [query])
-        #     rows = cursor.fetchall()
+        #with connection.cursor() as cursor:
+        #    cursor.execute("SELECT * FROM auth_user WHERE username = %s", [query])
+        #    rows = cursor.fetchall()
 
         users = rows
 
@@ -33,8 +38,8 @@ def search_user(request):
 # ----------------------------------------
 
 # FLAW: Doesnt require loggin in
-# FIX: add @login_required (kommentoitu)
-# @login_required
+# FIX: add @login_required 
+#@login_required
 
 
 def secret_page(request):
@@ -48,23 +53,32 @@ def login_view(request):
     error = ""
     if request.method == "POST":
         username = request.POST.get("username")
-        # FLAW: Doesn't check password at all!
+        password = request.POST.get("password")
+
+
+        #FLAW: Doesn't check password at all!
         try:
             user = User.objects.get(username=username)
-            # Log in manually without password check
-            request.session['user_id'] = user.id
-            return redirect('secret')  
+            login(request, user)  # loggin in without password 
+            return redirect('secret')
         except User.DoesNotExist:
             error = "Invalid login"
 
-    return render(request, "main/login.html", {"error": error})
 
-# FIX: Use Django's authentication system (commented out)
-# from django.contrib.auth import authenticate, login
-# user = authenticate(request, username=username, password=password)
-# if user is not None:
-#     login(request, user)
-#     return redirect('secret')
+
+
+#    FIX: Use Django's authentication system (commented out)
+
+       # from django.contrib.auth import authenticate, login
+       # password = request.POST.get("password")
+       # user = authenticate(request, username=username, password=password)
+       # if user is not None:
+       #     login(request, user)
+       #     return redirect('secret')
+       # else:
+       #     error = "Invalid login"
+
+    return render(request, "main/login.html", {"error": error})
 
 
 # ----------------------------------------
@@ -83,6 +97,6 @@ def upload_file(request):
         message = f"File '{uploaded_file.name}' uploaded and executed!"
 
         # FIX: Never execute uploaded files
-        # message = f"File '{uploaded_file.name}' uploaded but NOT executed."
+        #message = f"File '{uploaded_file.name}' uploaded but NOT executed."
 
     return render(request, 'main/upload.html', {'message': message})

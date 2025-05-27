@@ -19,9 +19,10 @@ class MainConfig(AppConfig):
                 'admin'
             )
 
-        # FIX: Do not use default credentials in production
-        # # User.objects.create_superuser(
-        # #     'admin',
-        # #     'admin@example.com',
-        # #     'Strong&SecurePassword2024'
-        # # )
+        #FIX: Do not use default credentials in production
+        #if not User.objects.filter(username='admin').exists():
+        #    User.objects.create_superuser(
+        #        'admin',
+        #        'admin@example.com',
+        #        'Strong&SecurePassword2024'
+        #)
