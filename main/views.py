@@ -42,7 +42,7 @@ def search_user(request):
 #@login_required
 
 
-def secret_page(request): # has information of users
+def secret_page(request): # has information of users that is shown without loggin in
     users = User.objects.all().values('id', 'username', 'email', 'is_staff', 'is_superuser') 
     return render(request, 'main/secret.html', {'users': users})
 
