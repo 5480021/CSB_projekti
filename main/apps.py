@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 # ----------------------------------------
-# FLAW 3: Security Misconfiguration (OWASP A05)
+# FLAW 3: Authentication Failure (A07:2021-Identification and Authentication Failures) 
 # ----------------------------------------
 
 class MainConfig(AppConfig):
