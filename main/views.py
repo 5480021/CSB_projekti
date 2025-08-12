@@ -37,13 +37,14 @@ def search_user(request):
 # FLAW 2: Broken Access Control (OWASP A01)
 # ----------------------------------------
 
-# FLAW: Doesnt require loggin in
+# FLAW: Doesnt require loggin in and shows too much information
 # FIX: add @login_required 
 #@login_required
 
 
-def secret_page(request):
-    return render(request, 'main/secret.html')
+def secret_page(request): # has information of users
+    users = User.objects.all().values('id', 'username', 'email', 'is_staff', 'is_superuser') 
+    return render(request, 'main/secret.html', {'users': users})
 
 
 # ----------------------------------------
