@@ -4,5 +4,5 @@ The flaws are
 -	A03: SQL Injection
 -	A01: Broken Access Control
 -	A07: Identification and Authentication Failures
--	A07: Identification and Authentication Failures
+- A05: Security Misconfiguration 
 -	A08: Software and Data Integrity Failures
