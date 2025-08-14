@@ -48,39 +48,16 @@ def secret_page(request): # has information of users that is shown without loggi
 
 
 # ----------------------------------------
-# FLAW 4: Authentication Failures (OWASP A07)
+# FLAW 4: Security Misconfiguration (OWASP A05:2021)
 # ----------------------------------------
-def login_view(request):
-    error = ""
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+# FLAW: DEBUG is set as True 
+DEBUG = True  
 
+# FIX: Set the DEBUG as False.  
+# DEBUG = False
 
-        #FLAW: Doesn't check password at all!
-        try:
-            user = User.objects.get(username=username)
-            login(request, user)  # loggin in without password 
-            return redirect('secret')
-        except User.DoesNotExist:
-            error = "Invalid login"
-
-
-
-
-#    FIX: Use Django's authentication system (commented out)
-
-       # from django.contrib.auth import authenticate, login
-       # password = request.POST.get("password")
-       # user = authenticate(request, username=username, password=password)
-       # if user is not None:
-       #     login(request, user)
-       #     return redirect('secret')
-       # else:
-       #     error = "Invalid login"
-
-    return render(request, "main/login.html", {"error": error})
-
+def debug_demo(request):
+    raise RuntimeError("DEBUG leak demo")
 
 # ----------------------------------------
 # FLAW 5: Software and Data Integrity Failures (OWASP A08)
