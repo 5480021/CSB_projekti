@@ -43,7 +43,7 @@ def search_user(request):
 
 
 def secret_page(request): # has information of users that is shown without loggin in
-    users = User.objects.all().values('id', 'username', 'email', 'is_staff', 'is_superuser') 
+    users = User.objects.all().values('id', 'username') 
     return render(request, 'main/secret.html', {'users': users})
 
 
