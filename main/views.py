@@ -50,11 +50,6 @@ def secret_page(request): # has information of users that is shown without loggi
 # ----------------------------------------
 # FLAW 4: Security Misconfiguration (OWASP A05:2021)
 # ----------------------------------------
-# FLAW: DEBUG is set as True 
-#DEBUG = True  
-
-# FIX: Set the DEBUG as False.  
-DEBUG = False
 
 def debug_demo(request):
     raise RuntimeError("DEBUG leak demo")
