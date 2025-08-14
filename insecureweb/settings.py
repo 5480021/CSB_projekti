@@ -23,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yw8k9a!26r5gz*@9oh-f_rq@eyz%6*%5%#ds0_w5z2&f1hnr+d'
 
 # ----------------------------------------
-# FLAW 3: Security Misconfiguration (OWASP A05)
+# FLAW 4: Security Misconfiguration (OWASP A05)
 # ----------------------------------------
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
 # FIX: Disable debug mode in production
-# DEBUG = False
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
